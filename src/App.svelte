@@ -5,7 +5,7 @@
 	import Button from './Button.svelte'
 	export let name;
 
-	const absFade = (node, {delay = 0, duration = 400}) => {
+	const absFade = (node, {delay = 0, duration = 250}) => {
 		const o = getComputedStyle(node).opacity
 
 		return {
@@ -18,7 +18,7 @@
 
 <main>
 	{#if $scene == 'start'}
-		<div transition:absFade>
+		<div transition:absFade class="start">
 			<Button nextScene="size">
 				Start
 			</Button>	

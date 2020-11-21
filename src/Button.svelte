@@ -27,6 +27,7 @@
         border: solid 3px black;
         padding: 10px;
         transition-duration: 400ms;
+        user-select: none;
     }
 
     .button:hover {

@@ -11,13 +11,12 @@
     }
 </script>
 
-
-<description>
+<div class="description">
     <h1>Choose the size of the board</h1>
-</description>
+</div>
 <main transition:fade>
     {#each sizes as cell }
-        <div on:click={()=>sizeClick(cell)}>
+        <div class="button" on:click={()=>sizeClick(cell)}>
             <span>{cell}</span>
         </div>        
     {/each}
@@ -33,7 +32,7 @@
         grid-template-columns: repeat(4, 25%);
     }
 
-    div {
+    .button {
         padding: 30px;
         margin: 10px;
         border: 3px solid black;
@@ -46,16 +45,23 @@
 
     span {
         text-align: center;
+        font-size: 2rem;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 
-    div:hover {
+    .button:hover {
         cursor: pointer;
         background: black;
         color: white;
     }
 
-    description {
+    .description {
         display: flex;
         justify-content: center;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 </style>
