@@ -1,36 +1,55 @@
 <script>
+	import { scene, size } from './stores'
+	import Board from './Board.svelte'
+	import SizeChooser from './SizeChooser.svelte'
+	import Button from './Button.svelte'
 	export let name;
 
-	let board = [[0,0,0],[0,0,0],[0,0,0]]
+	const absFade = (node, {delay = 0, duration = 400}) => {
+		const o = getComputedStyle(node).opacity
 
+		return {
+			delay,
+			duration,
+			css: t => `opacity: ${t * o}; position: absolute;`
+		}
+	}
 </script>
 
 <main>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-
-	{#each board as item, y}
-		{#each item as cell, x}
-			<span>{x}:{y} = {cell}</span>
-		{/each}
-		<br/>
-	{/each}
-
+	{#if $scene == 'start'}
+		<div transition:absFade>
+			<Button nextScene="size">
+				Start
+			</Button>	
+		</div>
+	{:else if $scene == 'size'}
+		<div transition:absFade>
+			<SizeChooser/>
+		</div>
+	{:else if $scene == 'board' && $size != 0}
+		<div transition:absFade>
+			<Board/>
+		</div>
+	{/if}
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+	:global(body){
+		margin: 0;
+		padding: 0;
+		background: white;
 	}
 
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
+	main {
+		text-align: center;
+		margin: 0 auto;
+		background: white;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 
 	@media (min-width: 640px) {
