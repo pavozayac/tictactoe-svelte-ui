@@ -1,6 +1,6 @@
 <script>
     import { scene } from './stores'
-    export let nextScene;
+    export let nextScene = $scene;
 
     const backClick = () => {
         $scene = nextScene
@@ -8,7 +8,7 @@
 </script>
 
 <div class="container">
-    <div class="button" on:click={backClick}>
+    <div class="button" on:click={backClick} on:click>
         <strong>
             <slot></slot>
         </strong>
@@ -27,7 +27,9 @@
         border: solid 3px black;
         padding: 10px;
         transition-duration: 400ms;
-        user-select: none;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
     }
 
     .button:hover {

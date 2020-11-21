@@ -11,7 +11,7 @@
 		return {
 			delay,
 			duration,
-			css: t => `opacity: ${t * o}; position: absolute;`
+			css: t => `opacity: ${t * o};`
 		}
 	}
 </script>
@@ -21,14 +21,17 @@
 		<div transition:absFade class="start">
 			<Button nextScene="size">
 				Start
-			</Button>	
+			</Button>
+			<Button on:click={()=>window.external.invoke("bigga")}>
+				Exit
+			</Button>
 		</div>
 	{:else if $scene == 'size'}
-		<div transition:absFade>
+		<div transition:absFade class="chooser">
 			<SizeChooser/>
 		</div>
 	{:else if $scene == 'board' && $size != 0}
-		<div transition:absFade>
+		<div transition:absFade class="board">
 			<Board/>
 		</div>
 	{/if}
@@ -56,5 +59,9 @@
 		main {
 			max-width: none;
 		}
+	}
+
+	.start, .chooser, .board {
+		position: absolute;
 	}
 </style>

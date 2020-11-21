@@ -24,13 +24,13 @@
                 cursor: ${cell ? 'default' : 'pointer'};
             `}><div class="inner">
                 {#if cell == 1}
-                <svg width="80" height="80" transition:fade>
-                  <circle cx="40" cy="40" r="35" stroke="black" stroke-width="4" fill="white"/>
+                <svg width="80%" height="80%" transition:fade>
+                  <circle cx="50%" cy="50%" r="37%" stroke="black" stroke-width="4" fill="white"/>
                 </svg>
                 {:else if cell == -1}
-                <svg width="80" height="80" transition:fade={{duration: 200}}>
-                    <line x1="5" y1="5" x2="75" y2="75" stroke="black" stroke-width="4" />
-                    <line x1="5" y1="75" x2="75" y2="5" stroke="black" stroke-width="4" />
+                <svg width="70%" height="70%" transition:fade={{duration: 200}}>
+                    <line x1="7%" y1="7%" x2="93%" y2="93%" stroke="black" stroke-width="4" />
+                    <line x1="7%" y1="93%" x2="93%" y2="7%" stroke="black" stroke-width="4" />
                 </svg>
                 {/if}
 
@@ -48,7 +48,7 @@
 		display: grid;
         width: 350px;
         height: 350px;
-        margin-bottom: 70px;
+        margin-bottom: 40px;
         grid-auto-flow: dense;
         gap: 0;
 	}
