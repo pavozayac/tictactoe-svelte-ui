@@ -1,6 +1,6 @@
 <script>
     import { scene } from './stores'
-    export let nextScene = $scene;
+    export let nextScene = 'start';
 
     const backClick = () => {
         $scene = nextScene
@@ -30,6 +30,7 @@
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
+        width: 100%;
     }
 
     .button:hover {

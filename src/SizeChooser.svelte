@@ -1,20 +1,22 @@
 <script>
-    import { size, scene } from './stores'
+    import { size, scene, mode } from './stores'
     import { fade } from 'svelte/transition'
     import Button from './Button.svelte'
 
-    let sizes = [...Array(8).keys()].map(k => k + 3)
+    $: sizes = $mode == 'multi' ? [...Array(8).keys()].map(k => k + 3) : [3, 4]
 
     const sizeClick = (x) => {
         $size = x
-        $scene = 'board'
+        $scene = 'names'
     }
 </script>
 
 <div class="description">
     <h1>Choose the size of the board</h1>
 </div>
-<main transition:fade>
+<main transition:fade style={`
+    grid-template-columns: repeat(${$mode == 'multi' ? 4 : 2}, 1fr);    
+`}>
     {#each sizes as cell }
         <div class="button" on:click={()=>sizeClick(cell)}>
             <span>{cell}</span>
@@ -29,7 +31,6 @@
 <style>
     main {
         display: grid;
-        grid-template-columns: repeat(4, 25%);
     }
 
     .button {

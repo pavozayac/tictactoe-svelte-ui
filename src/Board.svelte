@@ -2,9 +2,8 @@
     import { size, board } from './stores'
     import { fade } from 'svelte/transition'
     import Button from './Button.svelte'
-    import {onMount} from 'svelte'
 
-    $board = Array.from(Array($size), () => new Array($size))
+    $board = Array.from(Array(10), () => new Array(10))
 
     const cellClick = (x, y) => {
         $board[y][x] = 1
@@ -16,8 +15,8 @@
     grid-template-columns: repeat(${$size}, ${350/$size}px);
     grid-template-rows: repeat(${$size}, ${350/$size}px);
 `}>
-	{#each $board as item, y}
-		{#each item as cell, x}
+	{#each $board.slice(0, $size) as item, y}
+		{#each item.slice(0, $size) as cell, x}
 			<div class="cell" on:click={()=>cellClick(x, y)} style={`
                 border-bottom: ${y < $size-1 ? '3px solid black' : 'none'};
                 border-right: ${x < $size-1 ? '3px solid black' : 'none'};
