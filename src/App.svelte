@@ -16,6 +16,10 @@
 			css: t => `opacity: ${t * o};`
 		}
 	}
+
+	function bruh () {
+		alert("bruh")
+	}
 </script>
 
 <main>
