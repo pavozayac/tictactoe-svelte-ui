@@ -16,7 +16,6 @@ app.passMove = (x, y) => {
 	unsubscribe()
 	b[y][x] = 1
 	board.set(b)
-	alert("bruh")
 }
 
 app.gameEnd = (sign) => {
