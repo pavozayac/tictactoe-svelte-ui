@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import babel from 'rollup-plugin-babel'
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -67,6 +68,28 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
+		babel({
+			extensions: [ '.js', '.mjs', '.html', '.svelte' ],
+			runtimeHelpers: true,
+			exclude: [ 'node_modules/@babel/**' ],
+			presets: [
+			  [
+				'@babel/preset-env',
+				{
+				  targets: '> 0.25%, not dead'
+				}
+			  ]
+			],
+			plugins: [
+			  '@babel/plugin-syntax-dynamic-import',
+			  [
+				'@babel/plugin-transform-runtime',
+				{
+				  useESModules: true
+				}
+			  ]
+			]
+		  }),
 		production && terser()
 	],
 	watch: {

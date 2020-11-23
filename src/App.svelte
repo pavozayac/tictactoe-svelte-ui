@@ -4,6 +4,7 @@
 	import SizeChooser from './SizeChooser.svelte'
 	import Button from './Button.svelte'
 	import NameChooser from './NameChooser.svelte'
+	import Final from './Final.svelte'
 
 	export let name;
 
@@ -15,10 +16,6 @@
 			duration,
 			css: t => `opacity: ${t * o};`
 		}
-	}
-
-	function bruh () {
-		alert("bruh")
 	}
 </script>
 
@@ -44,8 +41,12 @@
 			<Board/>
 		</div>
 	{:else if $scene == 'names'}
-		<div transition:absFade>
+		<div transition:absFade class="names">
 			<NameChooser />
+		</div>
+	{:else if $scene == 'final'}
+		<div transition:absFade class="final">
+			<Final/>
 		</div>
 	{/if}
 </main>
@@ -54,7 +55,7 @@
 	:global(body){
 		margin: 0;
 		padding: 0;
-		background: white;
+		background: black;
 	}
 
 	main {
@@ -74,7 +75,7 @@
 		}
 	}
 
-	.start, .chooser, .board {
+	.start, .chooser, .board, .final, .names {
 		position: absolute;
 	}
 

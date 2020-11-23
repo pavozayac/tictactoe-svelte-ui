@@ -1,5 +1,5 @@
 import App from './App.svelte';
-import { board } from './stores'
+import { board, scene, winner } from './stores'
 
 const app = new App({
 	target: document.body,
@@ -14,12 +14,15 @@ app.passMove = (x, y) => {
 		b = value
 	})
 	unsubscribe()
-	b[x][y] = 1
+	b[y][x] = 1
 	board.set(b)
+	alert("bruh")
 }
 
-app.bruh = (msg) => {
-	alert(msg)
+app.gameEnd = (sign) => {
+	winner.set(sign)
+	scene.set('final')
+	board.set(Array.from(Array(10), () => new Array(10)))
 }
 
 export default app;

@@ -1,16 +1,16 @@
 <script>
-    import { size, board, mode } from './stores'
+    import { size, board, mode, winner } from './stores'
     import { fade } from 'svelte/transition'
     import Button from './Button.svelte'
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 
     $board = Array.from(Array(10), () => new Array(10))
 
-    const cellClick = (x, y) => {
+    const cellClick = async (x, y) => {
         if (!$board[y][x] && !moveLocked){
             $board[y][x] = currentPlayer
             window.external.invoke(JSON.stringify({msg: "move", x: x, y: y}))
-            if (mode == 'multi'){
+            if ($mode == 'multi'){
                 switchPlayer()
             } else {
                 moveLocked = true
@@ -20,6 +20,7 @@
         }
     }
     
+    
     let currentPlayer = -1
     let moveLocked = false
 
@@ -28,9 +29,12 @@
     }
 
     onMount(()=>{
-        window.external.invoke(JSON.stringify({msg: "init", size: $size, ai: mode != 'multi'}))
+        window.external.invoke(JSON.stringify({msg: "init", size: $size}))
     })
 
+    onDestroy(()=>{
+        $board = Array.from(Array(10), () => new Array(10))
+    })
 </script>
 
 <div transition:fade class="boardContainer" style={`    

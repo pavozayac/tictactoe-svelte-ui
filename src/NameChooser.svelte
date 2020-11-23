@@ -29,6 +29,9 @@
     <Button nextScene="names" on:click={saveNames}>
         Save names
     </Button>
+    <Button nextScene="start">
+        Return to menu
+    </Button>
 </div>
 
 <style>
