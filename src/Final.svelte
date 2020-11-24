@@ -1,7 +1,5 @@
 <script>
     import { winner, nameO, nameX } from './stores'
-    import Button from './Button.svelte'
-
     let message
 
     $: {
@@ -15,18 +13,23 @@
     }
 </script>
 
+<div class="container">
 <div>
     <h1>{message}</h1>
 </div>
-<Button nextScene="start">
-    Return to menu
-</Button>
+</div>
 
 <style>
     .container {
         display: flex;
+        flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        position: absolute;
+        background: black;
+        color: white;
+        width: 250px;
+        height: auto;
+        margin: 0;
+        border: 3px solid black;
     }
 </style>

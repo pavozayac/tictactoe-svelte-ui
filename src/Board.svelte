@@ -50,12 +50,12 @@
             `}><div class="inner">
                 {#if cell == 1}
                 <svg width="80%" height="80%" transition:fade>
-                  <circle cx="50%" cy="50%" r="37%" stroke="black" stroke-width="4" fill="white"/>
+                  <circle cx="50%" cy="50%" r="37%" stroke="aqua" stroke-width="4" fill="white"/>
                 </svg>
                 {:else if cell == -1}
                 <svg width="70%" height="70%" transition:fade={{duration: 200}}>
-                    <line x1="7%" y1="7%" x2="93%" y2="93%" stroke="black" stroke-width="4" />
-                    <line x1="7%" y1="93%" x2="93%" y2="7%" stroke="black" stroke-width="4" />
+                    <line x1="7%" y1="7%" x2="93%" y2="93%" stroke="orange" stroke-width="4" />
+                    <line x1="7%" y1="93%" x2="93%" y2="7%" stroke="orange" stroke-width="4" />
                 </svg>
                 {/if}
 
@@ -64,7 +64,7 @@
 		{/each}
     {/each}
 </div>
-<Button nextScene="start">
+<Button nextScene="start" on:click={()=>$winner='none'}>
     Return to menu
 </Button>
 

@@ -14,14 +14,12 @@ app.passMove = (x, y) => {
 		b = value
 	})
 	unsubscribe()
-	b[y][x] = 1
+	b[x][y] = 1
 	board.set(b)
 }
 
 app.gameEnd = (sign) => {
 	winner.set(sign)
-	scene.set('final')
-	board.set(Array.from(Array(10), () => new Array(10)))
 }
 
 export default app;

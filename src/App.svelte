@@ -1,5 +1,5 @@
 <script>
-	import { scene, size, mode } from './stores'
+	import { scene, size, mode, winner } from './stores'
 	import Board from './Board.svelte'
 	import SizeChooser from './SizeChooser.svelte'
 	import Button from './Button.svelte'
@@ -40,13 +40,14 @@
 		<div transition:absFade class="board">
 			<Board/>
 		</div>
+		{#if $winner != 'none'}
+		<div transition:absFade class="final">
+			<Final/>
+		</div>
+		{/if}
 	{:else if $scene == 'names'}
 		<div transition:absFade class="names">
 			<NameChooser />
-		</div>
-	{:else if $scene == 'final'}
-		<div transition:absFade class="final">
-			<Final/>
 		</div>
 	{/if}
 </main>
@@ -81,5 +82,9 @@
 
 	.start {
 		width: 150px;
+	}
+
+	.final {
+		opacity: 0.8;
 	}
 </style>
