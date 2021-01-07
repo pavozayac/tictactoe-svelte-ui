@@ -5,25 +5,18 @@
 	import Button from './Button.svelte'
 	import NameChooser from './NameChooser.svelte'
 	import Final from './Final.svelte'
+	import SignReveal from './SignReveal.svelte'
+	import { fade } from './effects'
 
 	export let name;
 
-	const absFade = (node, {delay = 0, duration = 250}) => {
-		const o = getComputedStyle(node).opacity
-
-		return {
-			delay,
-			duration,
-			css: t => `opacity: ${t * o};`
-		}
-	}
 </script>
 
 <main>
 	{#if $scene == 'start'}
-		<div transition:absFade class="start">
+		<div transition:fade class="start">
 			<Button nextScene="size" on:click={()=>$mode='single'}>
-				Singleplayer
+				Single player
 			</Button>
 			<Button nextScene="size" on:click={()=>$mode='multi'}>
 				Multiplayer
@@ -33,21 +26,25 @@
 			</Button>
 		</div>
 	{:else if $scene == 'size'}
-		<div transition:absFade class="chooser">
+		<div transition:fade class="chooser">
 			<SizeChooser/>
 		</div>
 	{:else if $scene == 'board' && $size != 0}
-		<div transition:absFade class="board">
+		<div transition:fade class="board">
 			<Board/>
 		</div>
 		{#if $winner != 'none'}
-		<div transition:absFade class="final">
+		<div transition:fade class="final">
 			<Final/>
 		</div>
 		{/if}
 	{:else if $scene == 'names'}
-		<div transition:absFade class="names">
+		<div transition:fade class="names">
 			<NameChooser />
+		</div>
+	{:else if $scene == 'signs'}
+		<div transition:fade class="names">
+			<SignReveal />
 		</div>
 	{/if}
 </main>
@@ -57,6 +54,9 @@
 		margin: 0;
 		padding: 0;
 		background: white;
+		-moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
 	}
 
 	main {

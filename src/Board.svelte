@@ -1,13 +1,13 @@
 <script>
     import { size, board, mode, winner } from './stores'
-    import { fade } from 'svelte/transition'
     import Button from './Button.svelte'
     import { onDestroy, onMount } from 'svelte';
+    import { fade } from './effects'
 
     $board = Array.from(Array(10), () => new Array(10))
 
     const cellClick = async (x, y) => {
-        if (!$board[y][x] && !moveLocked){
+        if (!$board[y][x] && !moveLocked && $winner == 'none'){
             $board[y][x] = currentPlayer
             window.external.invoke(JSON.stringify({msg: "move", x: x, y: y}))
             if ($mode == 'multi'){
@@ -35,9 +35,26 @@
     onDestroy(()=>{
         $board = Array.from(Array(10), () => new Array(10))
     })
+
+    let boardHeight
 </script>
 
-<div transition:fade class="boardContainer" style={`    
+<div class="indicator" style={`top: ${boardHeight/2-20}px;`}>
+    {#if $winner == 'none'}
+        {#if currentPlayer == 1}
+        <svg width="40px" height="40px" transition:fade>
+            <circle cx="50%" cy="50%" r="37%" stroke="aqua" stroke-width="4" fill="white"/>
+        </svg>
+        {:else}
+        <svg width="40px" height="40px" transition:fade>
+            <line x1="7%" y1="7%" x2="93%" y2="93%" stroke="orange" stroke-width="4" />
+            <line x1="7%" y1="93%" x2="93%" y2="7%" stroke="orange" stroke-width="4" />
+        </svg>
+        {/if}
+    {/if}
+</div>
+
+<div bind:offsetHeight={boardHeight} transition:fade class="boardContainer" style={`    
     grid-template-columns: repeat(${$size}, ${350/$size}px);
     grid-template-rows: repeat(${$size}, ${350/$size}px);
 `}>
@@ -90,6 +107,15 @@
         justify-content: center;
         color: black;
         font-size: 3rem;
+    }
+
+    .indicator {
+        position: absolute;
+        left: -90px;
+    }
+
+    .indicator > svg {
+        position: absolute;
     }
 
 </style>

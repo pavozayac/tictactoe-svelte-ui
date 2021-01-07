@@ -2,16 +2,25 @@
     import { nameX, nameO, scene } from './stores'
     import Button from './Button.svelte'
 
-    let x = ''
-    let o = ''
+    let nameOne = ''
+    let nameTwo = ''
 
-    $: error = x.length>2 && o.length>2 ? false : true
+    $: errOne = nameOne.length < 3
+    $: errTwo = nameTwo.length < 3
 
     const saveNames = () => {
-        if (!error){
-            $nameX = x
-            $nameO = o
-            $scene = 'board'
+        if (!errOne && !errTwo){
+            if (Math.round(Math.random())){
+                $nameX = nameOne
+                $nameO = nameTwo
+            } else {
+                $nameX = nameTwo
+                $nameO = nameOne
+            }
+            
+            $scene = 'signs'
+        } else {
+
         }
     }
 
@@ -19,12 +28,12 @@
 
 <div class="container">
     <label>
-        <p><strong>Enter player X's name: {error && x.length<3 ? '(min. 3)' : ''}</strong></p>
-        <input type="text" bind:value={x}/>
+        <p><strong>Enter 1st player's name: <span style={`color: ${errOne ? 'red' : '#333'};`}>(min. 3)</span></strong></p>
+        <input type="text" bind:value={nameOne} placeholder="Player one"/>
     </label>
     <label>
-        <p><strong>Enter player O's name: {error && o.length<3 ? '(min. 3)' : ''}</strong></p>
-        <input type="text" bind:value={o}/>
+        <p><strong>Enter 2nd player's name: <span style={`color: ${errTwo ? 'red' : '#333'};`}>(min. 3)</span></strong></p>
+        <input type="text" bind:value={nameTwo} placeholder="Player two"/>
     </label>
     <Button nextScene="names" on:click={saveNames}>
         Save names
@@ -39,11 +48,20 @@
         width: 250px;
     }
 
+    label {
+        width: 100%;
+    }
+
     input {
+        width: 100%;
         border: 3px solid black;
     }
 
     input:focus {
         outline: none;
+    }
+
+    span {
+        transition-duration: 200ms;
     }
 </style>
