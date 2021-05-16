@@ -1,5 +1,5 @@
 import App from './App.svelte';
-import { board, scene, winner } from './stores'
+import { board, scene, winner, nodes, loading } from './stores'
 
 const app = new App({
 	target: document.body,
@@ -21,5 +21,23 @@ app.passMove = (x, y) => {
 app.gameEnd = (sign) => {
 	winner.set(sign)
 }
+
+app.passNodes = (n) => {
+	nodes.set(n)
+}
+
+app.changeScene = (s) => {
+	scene.set(s)
+}
+
+app.setLoading = (l) => {
+	loading.set(l)
+}
+
+window.onclose = () => {
+	console.log("bruh")
+}
+
+window.close()
 
 export default app;

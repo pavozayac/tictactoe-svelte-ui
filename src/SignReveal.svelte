@@ -1,6 +1,7 @@
 <script>
     import Button from './Button.svelte'
-    import { nameX, nameO, scene, size } from './stores'
+    import { nameX, nameO, scene, size, loading } from './stores'
+
 </script>
 {@debug $scene}
 {@debug $size}
@@ -28,7 +29,7 @@
         </div>
     </div>
     
-    <Button nextScene="board">
+    <Button nextScene="loading">
         Start game
     </Button>
     <Button nextScene="start">

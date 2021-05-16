@@ -1,5 +1,5 @@
 <script>
-	import { scene, size, mode, winner } from './stores'
+	import { scene, size, mode, winner, nodes, loading } from './stores'
 	import Board from './Board.svelte'
 	import SizeChooser from './SizeChooser.svelte'
 	import Button from './Button.svelte'
@@ -7,10 +7,34 @@
 	import Final from './Final.svelte'
 	import SignReveal from './SignReveal.svelte'
 	import { fade } from './effects'
+	import { onMount } from 'svelte';
 
-	export let name;
+	//export let name;
+
+	let content = ".";
+	
+	onMount(()=>{
+		window.external.invoke(JSON.stringify({msg: 'load'}))
+
+		setInterval(()=>{
+			if (content != '...'){
+				content += '.'
+			} else {
+				content = "."
+			}
+		}, 1000)
+	})
+
+	$: if ($scene == 'loading' && $loading == false) {
+		$scene = 'board'
+	}
+
 
 </script>
+<h2 class="loadingIndicator">
+	{#if $loading == true && $scene != 'loading'} Loading{content}
+	{/if}
+</h2>
 
 <main>
 	{#if $scene == 'start'}
@@ -24,6 +48,14 @@
 			<Button on:click={()=>window.external.invoke(JSON.stringify({ msg: 'exit'}))}>
 				Exit
 			</Button>
+		</div>
+	{:else if $scene == 'loading'}
+		<div transition:fade class="start">
+			<h1>Loading</h1>
+		</div>
+	{:else if $scene == 'saving'}
+		<div transition:fade class="start">
+			<h1>Saving</h1>
 		</div>
 	{:else if $scene == 'size'}
 		<div transition:fade class="chooser">
@@ -86,5 +118,27 @@
 
 	.final {
 		opacity: 0.8;
+	}
+
+	.loadingIndicator {
+		position: fixed;
+		padding: 10px;
+	}
+
+	@keyframes dots {
+		0% {
+			content: ".";
+		}
+		50% {
+			content: "..";
+		}
+		100% {
+			content: "...";
+		}
+	}
+
+	.loading::after {
+		color: black;
+		animation-name: dots 3s linear infinite alternate;
 	}
 </style>
