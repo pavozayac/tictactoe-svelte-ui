@@ -1,16 +1,16 @@
 <script>
-    import { scene } from './stores'
-    export let nextScene = 'start';
+    import { scene } from "./stores";
+    export let nextScene = "start";
 
     const backClick = () => {
-        $scene = nextScene
-    }
+        $scene = nextScene;
+    };
 </script>
 
 <div class="container">
     <div class="button" on:click={backClick} on:click>
         <strong>
-            <slot></slot>
+            <slot />
         </strong>
     </div>
 </div>

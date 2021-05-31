@@ -1,6 +1,6 @@
 <script>
     import Button from './Button.svelte'
-    import { nameX, nameO, scene, size, loading } from './stores'
+    import { nameX, nameO, scene, size } from './stores'
 
 </script>
 {@debug $scene}
@@ -29,7 +29,7 @@
         </div>
     </div>
     
-    <Button nextScene="loading">
+    <Button nextScene="board">
         Start game
     </Button>
     <Button nextScene="start">
@@ -39,7 +39,7 @@
 
 <style>
     .container {
-        width: 250px;
+        width: 300px;
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -50,8 +50,9 @@
     }
     
     .starts {
+        width:100%;
         font-size: 1.5rem;
-        border: 3px solid black;
+        border-bottom: 2px solid black;
         padding: 5px 11px 11px 15px;
         margin-bottom: 100px;
     }
@@ -77,7 +78,7 @@
         display: inline-block;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 700;
         max-width: 70%;
     }

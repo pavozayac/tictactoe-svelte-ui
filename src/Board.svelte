@@ -1,60 +1,55 @@
 <script>
-    import { size, board, mode, winner } from './stores'
+    import { size, board, mode, winner, nameX, nameO, moveLocked } from './stores'
     import Button from './Button.svelte'
     import { onDestroy, onMount } from 'svelte';
     import { fade } from './effects'
 
     $board = Array.from(Array(10), () => new Array(10))
+    $moveLocked = false
 
-    const cellClick = async (x, y) => {
-        if (!$board[y][x] && !moveLocked && $winner == 'none'){
+    const cellClick = (x, y) => {
+        if ($board[y][x] != 1 && $board[y][x] != -1 && $moveLocked == false && $winner == 'none'){
+            $moveLocked = true
             $board[y][x] = currentPlayer
             window.external.invoke(JSON.stringify({msg: "move", x: x, y: y}))
             if ($mode == 'multi'){
                 switchPlayer()
+                $moveLocked = false
             } else {
-                moveLocked = true
                 window.external.invoke(JSON.stringify({msg: "computeMove"}))
-                moveLocked = false
+                window.external.invoke(JSON.stringify({msg: "refreshBoard"}))
+                $moveLocked = false
             }
         }
     }
     
-    
     let currentPlayer = -1
-    let moveLocked = false
 
     const switchPlayer = () => {
         currentPlayer = -1 * currentPlayer
     }
 
     onMount(()=>{
-        window.external.invoke(JSON.stringify({msg: "init", size: $size}))
+        $board = Array.from(Array(10), () => new Array(10))
+
+        window.external.invoke(JSON.stringify({msg: "init", size: $size, player_one: $nameX, player_two: $nameO}))
+
+        $moveLocked = false
+
+        setInterval(()=>{
+            window.external.invoke(JSON.stringify({msg: "refreshBoard"}))
+        }, 1000)
+
     })
 
     onDestroy(()=>{
         $board = Array.from(Array(10), () => new Array(10))
+        $winner = 'none'
+        $moveLocked = false
     })
-
-    let boardHeight
 </script>
 
-<div class="indicator" style={`top: ${boardHeight/2-20}px;`}>
-    {#if $winner == 'none'}
-        {#if currentPlayer == 1}
-        <svg width="40px" height="40px" transition:fade>
-            <circle cx="50%" cy="50%" r="37%" stroke="aqua" stroke-width="4" fill="white"/>
-        </svg>
-        {:else}
-        <svg width="40px" height="40px" transition:fade>
-            <line x1="7%" y1="7%" x2="93%" y2="93%" stroke="orange" stroke-width="4" />
-            <line x1="7%" y1="93%" x2="93%" y2="7%" stroke="orange" stroke-width="4" />
-        </svg>
-        {/if}
-    {/if}
-</div>
-
-<div bind:offsetHeight={boardHeight} transition:fade class="boardContainer" style={`    
+<div transition:fade class="boardContainer" style={`    
     grid-template-columns: repeat(${$size}, ${350/$size}px);
     grid-template-rows: repeat(${$size}, ${350/$size}px);
 `}>
@@ -108,14 +103,4 @@
         color: black;
         font-size: 3rem;
     }
-
-    .indicator {
-        position: absolute;
-        left: -90px;
-    }
-
-    .indicator > svg {
-        position: absolute;
-    }
-
 </style>

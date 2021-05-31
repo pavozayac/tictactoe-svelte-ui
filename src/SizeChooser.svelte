@@ -1,30 +1,27 @@
 <script>
-    import { size, scene, mode, loading } from './stores'
-    import { fade } from 'svelte/transition'
-    import Button from './Button.svelte'
+    import { size, scene, mode } from "./stores";
+    import { fade } from "svelte/transition";
+    import Button from "./Button.svelte";
 
-    $: sizes = [3, 5, 6, 7, 8 ,9, 10]
+    $: sizes = [3, 5, 6, 7, 8, 9, 10];
 
     const sizeClick = (x) => {
-        $size = x
-        $scene = 'names'
-    }
+        $size = x;
+        $scene = "names";
+    };
 </script>
 
 <div class="description">
     <h1>Choose the size of the board</h1>
 </div>
 <main transition:fade>
-    {#each sizes as cell }
-        <div class="button" on:click={()=>sizeClick(cell)}>
+    {#each sizes as cell}
+        <div class="button" on:click={() => sizeClick(cell)}>
             <span>{cell}</span>
-        </div>        
+        </div>
     {/each}
 </main>
-<Button nextScene="start">
-    Return to menu
-</Button>
-
+<Button nextScene="start">Return to menu</Button>
 
 <style>
     main {

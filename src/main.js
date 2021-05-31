@@ -1,5 +1,5 @@
 import App from './App.svelte';
-import { board, scene, winner, nodes, loading } from './stores'
+import { board, winner, nameX, nameO, moveLocked } from './stores'
 
 const app = new App({
 	target: document.body,
@@ -9,35 +9,22 @@ const app = new App({
 });
 
 app.passMove = (x, y) => {
-	let b
-	const unsubscribe = board.subscribe(value => {
-		b = value
-	})
-	unsubscribe()
-	b[x][y] = 1
-	board.set(b)
+	board.update(b => { let up = b; up[x][y] = 1; return up} )
+	moveLocked.set(false)
+	//playerIndicator.update(n => n *= -1)
 }
 
 app.gameEnd = (sign) => {
 	winner.set(sign)
 }
 
-app.passNodes = (n) => {
-	nodes.set(n)
-}
+app.setNames = (player_one, player_two) => {
+	nameX.set(player_one)
+	nameO.set(player_two)
+}	
 
-app.changeScene = (s) => {
-	scene.set(s)
+app.refreshBoard = (refreshed) => {
+	board.set(JSON.parse(refreshed))
 }
-
-app.setLoading = (l) => {
-	loading.set(l)
-}
-
-window.onclose = () => {
-	console.log("bruh")
-}
-
-window.close()
 
 export default app;
