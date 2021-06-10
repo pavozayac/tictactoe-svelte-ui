@@ -1,8 +1,12 @@
 <script>
-    import { scene } from "./stores";
+    import { scene, board, size } from "./stores";
     export let nextScene = "start";
 
     const backClick = () => {
+        if (nextScene == 'start'){
+            $size = 0
+            $board = Array.from(Array(10), () => new Array(10))
+        }
         $scene = nextScene;
     };
 </script>

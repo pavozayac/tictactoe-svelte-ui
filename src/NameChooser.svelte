@@ -1,19 +1,26 @@
 <script>
-    import { nameX, nameO, scene } from './stores'
+    import { nameX, nameO, scene, mode } from './stores'
     import Button from './Button.svelte'
+    import { onMount } from 'svelte';
 
     $: errOne = $nameX.length < 3
     $: errTwo = $nameO.length < 3
 
     const saveNames = () => {
         if (!errOne && !errTwo){
-            if (Math.random() > 0.5){
+            if (Math.random() > 0.5 && $mode == 'multi'){
                 [$nameX, $nameO] = [$nameO, $nameX]
             }
 
             $scene = 'signs'
         }
     }
+
+    onMount(()=>{
+        if ($mode == 'single') {
+           $nameO = 'Computer'
+        }
+    })
 
 </script>
 

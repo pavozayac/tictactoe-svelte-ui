@@ -8,9 +8,10 @@
 	import SignReveal from './SignReveal.svelte'
 	import { fade } from './effects'
 	import { onMount } from 'svelte';
+	import { invoke } from '@tauri-apps/api/tauri'
 
 	onMount(()=> {
-		window.external.invoke(JSON.stringify({msg: 'load'}))
+		invoke('load')
 	})
 </script>
 
@@ -23,7 +24,7 @@
 			<Button nextScene="size" on:click={()=>$mode='multi'}>
 				Multiplayer
 			</Button>
-			<Button on:click={()=>window.external.invoke(JSON.stringify({ msg: 'exit'}))}>
+			<Button on:click={()=>invoke('exit')}>
 				Exit
 			</Button>
 		</div>

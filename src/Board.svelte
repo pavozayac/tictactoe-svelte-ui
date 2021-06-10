@@ -3,6 +3,7 @@
     import Button from './Button.svelte'
     import { onDestroy, onMount } from 'svelte';
     import { fade } from './effects'
+    import { invoke } from '@tauri-apps/api/tauri'
 
     $board = Array.from(Array(10), () => new Array(10))
     $moveLocked = false
@@ -11,14 +12,16 @@
         if ($board[y][x] != 1 && $board[y][x] != -1 && $moveLocked == false && $winner == 'none'){
             $moveLocked = true
             $board[y][x] = currentPlayer
-            window.external.invoke(JSON.stringify({msg: "move", x: x, y: y}))
+            invoke('player_move', {x: x, y: y})
             if ($mode == 'multi'){
                 switchPlayer()
                 $moveLocked = false
             } else {
-                window.external.invoke(JSON.stringify({msg: "computeMove"}))
-                window.external.invoke(JSON.stringify({msg: "refreshBoard"}))
-                $moveLocked = false
+                invoke('computer').then(()=>{
+                    console.log('completed calling computer')
+                    invoke('refresh')
+                    $moveLocked = false
+                })
             }
         }
     }
@@ -32,12 +35,12 @@
     onMount(()=>{
         $board = Array.from(Array(10), () => new Array(10))
 
-        window.external.invoke(JSON.stringify({msg: "init", size: $size, player_one: $nameX, player_two: $nameO}))
+        invoke('init', {size: $size, playerOne: $nameX, playerTwo: $nameO})
 
         $moveLocked = false
 
         setInterval(()=>{
-            window.external.invoke(JSON.stringify({msg: "refreshBoard"}))
+            invoke('refresh')
         }, 1000)
 
     })

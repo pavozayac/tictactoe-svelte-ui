@@ -3,9 +3,6 @@ import { board, winner, nameX, nameO, moveLocked } from './stores'
 
 const app = new App({
 	target: document.body,
-	props: {
-		name: 'world',
-	},
 });
 
 app.passMove = (x, y) => {
@@ -26,5 +23,7 @@ app.setNames = (player_one, player_two) => {
 app.refreshBoard = (refreshed) => {
 	board.set(JSON.parse(refreshed))
 }
+
+document.addEventListener('contextmenu', e=>e.preventDefault())
 
 export default app;
